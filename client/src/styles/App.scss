@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: Inter, sans-serif;
+  font-style: normal;
+  background: $white;
+  color: $grey900;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+
+  > * {
+    width: 100%;
+  }
+}
+
+img {
+  height: auto;
+  width: 100%;
+  max-width: 100%;
+}
