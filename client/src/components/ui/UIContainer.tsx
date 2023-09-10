@@ -6,7 +6,7 @@ type Props = {
   className?: string;
 };
 
-const UIContainer = ({children, className}: Props) => {
+const UIContainer = ({children, className = ''}: Props) => {
   return <div className={`${styles.uiContainer} ${className}`}>
     {children}
   </div>

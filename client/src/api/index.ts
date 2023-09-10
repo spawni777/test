@@ -1,5 +1,5 @@
 import axios, { AxiosProgressEvent } from 'axios';
-import { GetImagesResponse, PostImageUploadResponse } from '@/types/api';
+import { GetImagesResponse, PostImageUploadResponse, PutImageResponse } from '@/types/api';
 
 export const getImagesAPI = () => {
   return axios.get<GetImagesResponse>('/api/images');
@@ -24,7 +24,7 @@ export const deleteImageAPI = (imageId: number) => {
 }
 
 export const updateImageAPI = (imageId: number, label: string) => {
-  return axios('/api/images', {
+  return axios<PutImageResponse>('/api/images', {
     method: 'PUT',
     data: {
       id: imageId,

@@ -1,25 +1,18 @@
-import styles from '@/styles/components/content/image.module.scss';
+import styles from '@/styles/components/content/image-card.module.scss';
 import { memo } from 'react';
 import { ImageData } from '@/types/storage';
 import { CSSTransition } from "react-transition-group";
-import downloadIcon from '@/assets/images/icons/download.svg';
-import editIcon from '@/assets/images/icons/edit.svg';
-import deleteIcon from '@/assets/images/icons/delete.svg';
 import useInitImageUpload from '@/hooks/useInitImageUpload';
-import { deleteImageAPI } from '@/api';
-import { useDispatch } from 'react-redux';
-import { removeImage } from '@/store/images.store';
-import useNotifications from '@/hooks/useNotifications';
-import { setModalIsOpen } from '@/store/modal.store';
+import useImageActions from '@/hooks/useImageActions';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import useImageLoading from '@/hooks/useImageLoading';
 
 const ImageCard = memo((props: ImageData) => {
   const {
     URL: url,
     label,
-    groupDate,
-    id,
-    downloadURL,
-    filename
+    statuses,
   } = props;
 
   const {
@@ -29,66 +22,39 @@ const ImageCard = memo((props: ImageData) => {
     uploadingIsDone,
   } = useInitImageUpload(props);
 
-
-  const dispatch = useDispatch();
-
-  const downloadImage = (downloadURL: string, filename: string) => {
-    const link = document.createElement('a');
-    link.href = downloadURL;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-
-  const {notifySuccess, notifyError} = useNotifications();
-
-  const deleteImage = async (id: string | number) => {
-    try {
-      if (typeof id === 'number') {
-        await deleteImageAPI(id);
-      }
-      dispatch(removeImage({id,  groupDate}));
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  const actions = [
-    {
-      image: downloadIcon,
-      title: 'Download',
-      onClick: () => {
-        downloadImage(downloadURL, filename);
-      },
-    },
-    {
-      image: editIcon,
-      title: 'Edit label',
-      onClick: () => {
-        dispatch(setModalIsOpen({modalName: 'editing', isOpen: true}))
-      },
-    },
-    {
-      image: deleteIcon,
-      title: 'Delete',
-      onClick: async () => {
-        try {
-          await deleteImage(id);
-          notifySuccess('Image was deleted');
-        } catch (err) {
-          notifyError('Something goes wrong. Reload the page.');
-        }
-      },
-    },
-  ];
+  const actions = useImageActions(props);
+  const {
+    skeletonWidth,
+    skeletonHeight,
+    imageRef,
+  } = useImageLoading(props);
 
   return (
     <div className={styles.imageData}>
       <div className={styles.imageDataContent}>
-        <div className={styles.image}>
-          <img src={url} alt="image"/>
-        </div>
+        <CSSTransition
+          in={!statuses.loaded}
+          timeout={200}
+          classNames="fade"
+          unmountOnExit
+        >
+          <div className={styles.skeleton}>
+            <Skeleton
+              width={skeletonWidth}
+              height={skeletonHeight}
+            />
+          </div>
+        </CSSTransition>
+
+        <CSSTransition
+          in={statuses.loaded}
+          timeout={200}
+          classNames="fade"
+        >
+          <div className={styles.image}>
+            <img src={url} alt="image" ref={imageRef}/>
+          </div>
+        </CSSTransition>
 
         <CSSTransition
           in={!uploadingIsDone}
@@ -125,9 +91,14 @@ const ImageCard = memo((props: ImageData) => {
         )}
       </div>
 
-      {!!label.length && (
+      <CSSTransition
+        in={!!label.length && statuses.loaded}
+        timeout={200}
+        classNames="fade"
+        unmountOnExit
+      >
         <div className={styles.label}>{label}</div>
-      )}
+      </CSSTransition>
     </div>
   )
 })

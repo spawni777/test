@@ -14,7 +14,7 @@ const ImageGroup = memo(({imageGroupDate}: Props) => {
 
   if (!imageGroupLength) return null;
 
-  const imageGroupDateChopped = imageGroupDate.slice(0, -6)
+  const imageGroupDateChopped = imageGroupDate.slice(6);
 
   return (
     <div className={styles.group}>

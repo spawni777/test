@@ -4,6 +4,7 @@
   top: 0;
   left: 0;
   min-height: 100vh;
+  height: 100%;
   min-width: 100vw;
   background: rgba(255, 255, 255, 0.80);
   backdrop-filter: blur(10px);
@@ -11,4 +12,61 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: auto;
+
+  .container {
+    padding: 20px 0;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .content {
+      text-align: center;
+
+      .title {
+        margin-bottom: 50px;
+        font-size: 25.92px;
+        font-weight: 600;
+        line-height: 110%;
+        letter-spacing: -0.778px;
+      }
+
+      .image {
+        margin-bottom: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+
+        img {
+          max-width: 335px;
+        }
+      }
+
+      .input {
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        margin-bottom: 40px;
+        font-size: 12.5px;
+        font-weight: 400;
+        line-height: 125%;
+        letter-spacing: -0.375px;
+      }
+
+      .saveBtn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    .closeBtn {
+      position: absolute;
+      top: 50px;
+      right: 50px;
+    }
+  }
 }

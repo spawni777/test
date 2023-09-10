@@ -29,8 +29,18 @@ export const parseFormattedDate = (inputDate: string | number) => {
   return {year, month, day};
 }
 
+const groupDateDelimiter = ' ‘';
 export const getGroupDate = (inputDate: string | number) => {
   const {day, month, year} = parseFormattedDate(inputDate);
+  const yearMonthDay = [year, month.charAt(0).toUpperCase() + month.slice(1), day];
 
-  return `${ month.charAt(0).toUpperCase() + month.slice(1) } ‘${ day } ‘${ year }`;
+  return yearMonthDay.join(groupDateDelimiter);
+}
+
+export const getTimestampOfGroupDate = (groupDate: string) => {
+  const [year, month, day] = groupDate.split(groupDateDelimiter);
+  const monthIndex = months.indexOf(month);
+  const date = new Date(parseInt(year), monthIndex, parseInt(day));
+
+  return date.getTime();
 }

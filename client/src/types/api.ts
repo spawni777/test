@@ -8,3 +8,7 @@ export interface GetImagesResponse {
 export interface PostImageUploadResponse {
   image: ImageData;
 }
+
+export interface PutImageResponse {
+  image: ImageData;
+}

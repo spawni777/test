@@ -65,6 +65,12 @@ export const imagesSlice = createSlice({
 
       state.groups[groupDate] = state.groups[groupDate].filter(image => image.id !== id);
       state.totalNumber -= 1;
+    },
+    setImageLoaded: (state, {payload}: PayloadAction<{ groupDate: string; id: number | string; isLoaded: boolean; }>) => {
+      const image = state.groups[payload.groupDate].find(image => image.id === payload.id);
+
+      if (!image) return;
+      image.statuses.loaded = payload.isLoaded;
     }
   }
 })
@@ -75,6 +81,7 @@ export const {
   addImages,
   updateUploadedImage,
   removeImage,
+  setImageLoaded,
 } = imagesSlice.actions
 
 export default imagesSlice.reducer

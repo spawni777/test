@@ -1,6 +1,6 @@
 export type ImageStatusName = 'loaded' | 'isUploading';
 
-export interface ImageData {
+export type ImageData = {
   URL: string;
   downloadURL: string;
   id: number | string;
@@ -8,14 +8,14 @@ export interface ImageData {
   label: string;
   createdAt: string;
   groupDate: string;
-  aspectRatio?: number;
+  aspectRatio: number;
   statuses: {
     loaded?: boolean;
     isUploading?: boolean;
   }
 }
 
-export interface ImageGroups {
+export type ImageGroups = {
   [key: string]: ImageData[]
 }
 
@@ -27,17 +27,18 @@ export interface IImagesState {
   totalNumber: number;
 }
 
-export enum ModalNameEnum {
-  uploading = 'uploading',
-  editing = 'editing',
+export interface IDefaultModal {
+  isOpen: boolean;
 }
 
-export type ModalName = keyof typeof ModalNameEnum;
+export interface IEditingModal extends IDefaultModal {
+  image: ImageData;
+}
 
 export type ModalsState = {
-  [key in ModalNameEnum]: {
-    isOpen: boolean;
-  };
+  [index: string]: IDefaultModal | IEditingModal;
+  uploading: IDefaultModal;
+  editing: IEditingModal;
 };
 
 export type NotificationState = {
