@@ -1,0 +1,36 @@
+.group {
+
+  .title {
+    display: flex;
+
+    .date {
+      margin-right: 15px;
+      color: $grey200;
+      font-size: 31.104px;
+      font-weight: 700;
+      line-height: 110%;
+      letter-spacing: -0.933px;
+    }
+
+    .imagesNumber {
+      padding: 5px 10px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: $green;
+      color: #FFF;
+      font-size: 21.6px;
+      font-weight: 600;
+      line-height: 110%;
+      letter-spacing: -0.648px;
+    }
+  }
+
+  .content {
+    margin: 15px 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

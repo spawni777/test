@@ -5,11 +5,12 @@ type Props = {
   icon: 'upload' | 'check' | 'cross';
   iconColor: `#${string}`;
   text: string;
+  onClick: () => void;
 }
 
-const UIButton = ({icon, text, iconColor}: Props) => {
+const UIButton = ({icon, text, iconColor, onClick}: Props) => {
   return (
-    <button className={styles.button}>
+    <button className={styles.button} onClick={onClick}>
       <div className={styles.icon}>
         <ButtonIcon
           icon={icon}

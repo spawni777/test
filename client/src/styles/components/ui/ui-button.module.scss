@@ -16,7 +16,7 @@
   }
 
   &:active {
-    box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2) inset;
+    box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2) inset;
   }
 
   .icon {
@@ -26,9 +26,5 @@
 
   .text {
     color: $purple800;
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 125%;
-    letter-spacing: -0.45px;
   }
 }

@@ -1,0 +1,32 @@
+.notification {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  max-width: 320px;
+
+  z-index: 10;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid $grey200;
+  background: $grey100;
+  box-shadow: 0 17px 40px 0 rgba(57, 62, 70, 0.20);
+
+  .title {
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+
+  .text {
+  }
+}
+
+
+.error {
+  color: $error;
+}
+.success {
+  color: $success;
+}
+.warning {
+  color: $warning;
+}

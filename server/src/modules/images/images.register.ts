@@ -6,6 +6,7 @@ import { DeleteImageDto } from '@/modules/images/dto/delete-image.dto';
 import { FirebaseService } from '@/services/firebase/firebase.service';
 import cfg from '@/cfg';
 import * as path from 'path';
+import { UpdateImageDto } from '@/modules/images/dto/update-image.dto';
 
 @Injectable()
 export class ImagesRegister {
@@ -15,21 +16,30 @@ export class ImagesRegister {
   ) {}
 
   async create(dto: CreateImageDto) {
-    const imageURL = await this.firebaseService.saveFile({
+    const {URL, downloadURL} = await this.firebaseService.saveFile({
       filePath: path.resolve(cfg.uploadImagesFolder, dto.filename),
     });
 
-    await this.imageRepository.create({
-      URL: imageURL,
+    return await this.imageRepository.create({
+      URL,
+      downloadURL,
       label: dto.label,
       filename: dto.filename,
+      aspectRatio: dto.aspectRatio,
     });
-
-    return imageURL;
   }
 
-  async getAll() {
-    return await this.imageRepository.findAll();
+  async getImages(offset: number = 0, limit?: number) {
+    const total = await this.imageRepository.count();
+    const images = await this.imageRepository.findAll({
+      order: [['createdAt', 'ASC']],
+      offset,
+      limit: limit
+        ? limit
+        : total,
+    });
+
+    return { images, total };
   }
 
   async deleteImage(dto: DeleteImageDto) {
@@ -39,5 +49,14 @@ export class ImagesRegister {
 
     await this.firebaseService.deleteFile({filename: image.filename});
     await Image.destroy({ where: { id: dto.id } });
+  }
+
+  async update(dto: UpdateImageDto) {
+    const image = await Image.findByPk(dto.id);
+    image.label = dto.label;
+
+    await image.save()
+
+    return image;
   }
 }

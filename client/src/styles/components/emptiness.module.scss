@@ -1,0 +1,39 @@
+.emptiness {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+  min-width: 100vw;
+  background: #FFF;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .logo {
+      margin-bottom: 60px;
+      max-width: 182px;
+    }
+
+    .title {
+      margin-bottom: 15px;
+      font-size: 31px;
+      font-weight: 700;
+      line-height: 110%;
+      letter-spacing: -0.933px;
+    }
+
+    .text {
+      margin-bottom: 30px;
+      color: $grey500;
+    }
+    .btn {}
+  }
+}

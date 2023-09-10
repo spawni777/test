@@ -1,0 +1,14 @@
+.modal {
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+  min-width: 100vw;
+  background: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(10px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,51 @@
+.uploading {
+  .content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+    transition: opacity 0.4s ease-out;
+
+    .icon {
+      margin-bottom: 15px;
+      max-width: 80px;
+    }
+
+    .title {
+      margin-bottom: 15px;
+      font-size: 31.104px;
+      font-weight: 700;
+      line-height: 110%;
+      letter-spacing: -0.933px;
+    }
+
+    .text {
+      color: $grey500;
+    }
+  }
+
+  .content.dragActive {
+    opacity: 0.4;
+  }
+
+  .inputLabel {
+    cursor: pointer;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+
+    .input {
+      display: none;
+    }
+  }
+
+  .dragFileElement {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+}

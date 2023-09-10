@@ -24,11 +24,14 @@ export class FirebaseService {
   }
 
   async saveFile(dto: SaveFileDto) {
-    const snapshot = await this.storage.bucket().upload(dto.filePath);
+    const snapshot = await this.storage.bucket().upload(dto.filePath, {public: true});
     const fileURL = await getDownloadURL(snapshot[0]);
 
     await unlink(dto.filePath);
-    return fileURL;
+    return {
+      URL: fileURL,
+      downloadURL: snapshot[0].metadata.mediaLink,
+    };
   }
 
   async deleteFile(dto: DeleteFileDto) {

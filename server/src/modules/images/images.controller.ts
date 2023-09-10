@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { randomUUID } from 'crypto';
@@ -6,14 +6,21 @@ import { DeleteImageDto } from '@/modules/images/dto/delete-image.dto';
 import * as path from 'path';
 import cfg from '@/cfg';
 import { ImagesRegister } from '@/modules/images/images.register';
+import { GetImagesQueryDto } from '@/modules/images/dto/get-images-query.dto';
+import { GetImagesResponseDto } from '@/modules/images/dto/get-images-response.dto';
+import { UploadImagesResponseDto } from '@/modules/images/dto/upload-images-response.dto';
+import { UpdateImageDto } from '@/modules/images/dto/update-image.dto';
+import { UpdateImageResponseDto } from '@/modules/images/dto/update-image-response.dto';
 
 @Controller('/api/images')
 export class ImagesController {
   constructor(private imagesRegister: ImagesRegister) {}
 
   @Get('/')
-  getImages() {
-    return this.imagesRegister.getAll();
+  async getImages(@Query() {offset, limit}: GetImagesQueryDto ) {
+    const { images, total } = await this.imagesRegister.getImages(offset, limit);
+
+    return new GetImagesResponseDto(images, total);
   }
 
   @Delete('/')
@@ -23,6 +30,12 @@ export class ImagesController {
     return 'success';
   }
 
+  @Put('/')
+  async updateImage(@Body() imageDto: UpdateImageDto) {
+    const updatedImage = await this.imagesRegister.update(imageDto);
+
+    return new UpdateImageResponseDto(updatedImage);
+  }
 
   @Post('/')
   @UseInterceptors(
@@ -46,12 +59,13 @@ export class ImagesController {
       }
     }),
   )
-  async uploadImage(@Body() body: {label: string}, @UploadedFile() file: Express.Multer.File) {
-    await this.imagesRegister.create({
+  async uploadImage(@Body() body: {label: string, aspectRatio: string}, @UploadedFile() file: Express.Multer.File) {
+    const image = await this.imagesRegister.create({
       filename: file.filename,
       label: body.label,
+      aspectRatio: body.aspectRatio,
     });
 
-    return 'success';
+    return new UploadImagesResponseDto(image);
   }
 }
